@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using api_demo_e19.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Nodes;
 
 namespace api_demo_e19.Controllers
@@ -8,8 +9,18 @@ namespace api_demo_e19.Controllers
     public class CategoryController : ControllerBase
     {
         
-        public static List<string> categories { get; } = new List<string>
-        { "Cate 001", "Cate 002"};
+        public static List<Category> categories { get; } = new List<Category>
+        { new Category()
+            {
+                Id = 1,
+                Name = "Test"
+            },
+           new Category()
+            {
+                Id = 2,
+                Name = "Test"
+            }
+        };
 
         [HttpGet]
         public IActionResult Get()
@@ -19,11 +30,11 @@ namespace api_demo_e19.Controllers
 
         [HttpGet("{id}")]
         public IActionResult GetById(
-            [FromRoute] string? id,
+            [FromRoute] int id,
             [FromQuery] string? msg
             )
         {
-            if (id is not null && categories.Contains(id))
+            if (categories.Any(item => item.Id == id))
             {
                 return Ok(new { message = "Category Found!", msg = msg });
             }
@@ -31,16 +42,9 @@ namespace api_demo_e19.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] JsonObject data)
+        public IActionResult Post([FromBody] Category data)
         {
-            string? name = data["name"]?.ToString();
-
-            if (name == null || name == "")
-            {
-                return BadRequest(new { message = "Key name is required and must not empty." });
-            }
-
-            categories.Add(name);
+            categories.Add(data);
             return Ok(new {message = "Success"});
         }
     }
