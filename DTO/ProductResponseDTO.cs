@@ -1,11 +1,10 @@
-﻿namespace api_demo_e19.Models
+﻿namespace api_demo_e19.DTO
 {
-    public class Product
+    public class ProductResponseDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
-        public double SuplierCost { get; set; } // expose to client
         public int CategoryId { get; set; }
     }
 }

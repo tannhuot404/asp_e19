@@ -31,6 +31,7 @@ namespace api_demo_e19.Controllers
         [HttpGet]
         //[ProducesResponseType(typeof(BaseResponse<List<Category>>), 200)]
         [ProducesResponseType<BaseResponse<List<Category>>>(200)]
+        [ProducesResponseType<BaseResponse<List<Category>>>(400)]
         public IActionResult Get()
         {
             var response = new BaseResponse<List<Category>>
