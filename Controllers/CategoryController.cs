@@ -8,22 +8,8 @@ namespace api_demo_e19.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoryController(AppDBContext _db) : ControllerBase
     {
-        
-        public static List<Category> categories { get; } = new List<Category>
-        { new Category()
-            {
-                Id = 1,
-                Name = "Test"
-            },
-           new Category()
-            {
-                Id = 2,
-                Name = "Test"
-            }
-        };
-
         /// <summary>
         /// Get Category List
         /// </summary>
@@ -32,8 +18,10 @@ namespace api_demo_e19.Controllers
         //[ProducesResponseType(typeof(BaseResponse<List<Category>>), 200)]
         [ProducesResponseType<BaseResponse<List<Category>>>(200)]
         [ProducesResponseType<BaseResponse<List<Category>>>(400)]
-        public IActionResult Get()
+        public IActionResult GetCategoryList()
         {
+            var categories = _db.Categories.ToList();
+
             var response = new BaseResponse<List<Category>>
             {
                 statusCode = 200,
@@ -44,32 +32,24 @@ namespace api_demo_e19.Controllers
         }
 
         /// <summary>
-        /// Get Category by ID
-        /// </summary>
-        /// <param name="id" example="42">Tesing</param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
-        public IActionResult GetById(
-            [FromRoute] int id
-            )
-        {
-            if (categories.Any(item => item.Id == id))
-            {
-                return Ok(new { message = "Category Found!" });
-            }
-            return BadRequest(new { error = "Category not exist!" });
-        }
-
-        /// <summary>
         /// Create new Category
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post([FromBody] Category data)
+        public IActionResult AddNewCategory([FromBody] Category data)
         {
-            categories.Add(data);
-            return Ok(new {message = "Success"});
+            _db.Categories.Add(data);
+            _db.SaveChanges();
+
+            var response = new BaseResponse<Category>
+            {
+                statusCode = 200,
+                devErrorMessage = "",
+                data = data
+            };
+
+            return Ok(response);
         }
     }
 }

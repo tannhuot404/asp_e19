@@ -20,27 +20,5 @@ namespace api_demo_e19.Controllers
             response.data = Products;
             return Ok(response);
         }
-
-        [HttpPost]
-        public IActionResult CreateProduct([FromBody] ProductRequestDTO productDTO)
-        {
-            var response = new BaseResponse<Product>();
-            if (CategoryController.categories.Any(cate => cate.Id == productDTO.CategoryId)) {
-                var newId = (Products.MaxBy(item => item.Id)?.Id ?? 0) + 1;
-
-                var newProduct = _mapper.Map<Product>(productDTO);
-                newProduct.Id = newId;
-
-                Products.Add(newProduct);
-                response.devErrorMessage = "";
-                response.statusCode = 200;
-                response.data = newProduct;
-                return Ok(response);
-            }
-
-            response.devErrorMessage = "Category not found...";
-            response.statusCode = 404;
-            return NotFound(response);
-        }
     }
 }
