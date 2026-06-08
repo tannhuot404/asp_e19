@@ -1,4 +1,5 @@
 using api_demo_e19.Models;
+using api_demo_e19.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -16,6 +17,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddAutoMapper(config => { }, AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<AppDBContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+// AddSingleton
+// AddTransient
 
 var app = builder.Build();
 
