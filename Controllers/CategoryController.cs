@@ -10,7 +10,7 @@ namespace api_demo_e19.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController(AppDBContext _db, ICategoryService _categoryService) : ControllerBase
+    public class CategoryController(ICategoryService _categoryService) : ControllerBase
     {
         /// <summary>
         /// Get Category List
@@ -18,32 +18,22 @@ namespace api_demo_e19.Controllers
         /// 
         [HttpGet]
         //[ProducesResponseType(typeof(BaseResponse<List<Category>>), 200)]
-        [ProducesResponseType<BaseResponse<List<Category>>>(200)]
-        [ProducesResponseType<BaseResponse<List<Category>>>(400)]
+        [ProducesResponseType<BaseResponse<List<CategoryResponseDTO>>>(200)]
+        [ProducesResponseType<BaseResponse<List<CategoryResponseDTO>>>(400)]
         public async Task<IActionResult> GetCategoryList()
         {
             return Ok(await _categoryService.GetList());
         }
-        
+
         /// <summary>
         /// Create new Category
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddNewCategory([FromBody] Category data)
+        public async Task<IActionResult> AddNewCategory([FromBody] CategoryRequestDTO category)
         {
-            await _db.Categories.AddAsync(data);
-            await _db.SaveChangesAsync();
-
-            var response = new BaseResponse<Category>
-            {
-                statusCode = 200,
-                devErrorMessage = "",
-                data = data
-            };
-
-            return Ok(response);
+            return Ok(await _categoryService.Add(category));
         }
     }
 }

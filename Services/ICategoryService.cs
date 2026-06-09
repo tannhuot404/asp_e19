@@ -6,6 +6,9 @@ namespace api_demo_e19.Services
 {
     public interface ICategoryService
     {
-        Task<BaseResponse<List<Category>>> GetList();
+        Task<BaseResponse<List<CategoryResponseDTO>>> GetList();
+        Task<BaseResponse<CategoryResponseDTO>> Add(CategoryRequestDTO item);
+        Task<BaseResponse<CategoryResponseDTO>> Update(CategoryRequestDTO item);
+        Task<BaseResponse<CategoryResponseDTO>> Delete(int id);
     }
 }
