@@ -6,5 +6,7 @@
         public string devErrorMessage { get; set; } = string.Empty;
 
         public T? data { get; set; }
+        
+        public ListMetaData ListMetaData { get; set; }
     }
 }
