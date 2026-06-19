@@ -18,6 +18,7 @@ builder.Services.AddAutoMapper(config => { }, AppDomain.CurrentDomain.GetAssembl
 
 builder.Services.AddDbContext<AppDBContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 // AddSingleton
 // AddTransient
 

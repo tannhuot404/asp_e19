@@ -8,7 +8,8 @@ namespace api_demo_e19.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductRequestDTO>().ReverseMap();
+            CreateMap<Product, ProductResponseDTO>();
+            CreateMap<ProductRequestDTO, Product>();
         }
     }
 }

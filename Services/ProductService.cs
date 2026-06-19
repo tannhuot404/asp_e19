@@ -27,7 +27,7 @@ namespace api_demo_e19.Services
                 // If category id not exist return BadRequest
                 if (!await _db.Categories.AnyAsync(c => c.Id == queryParams.CategoryId))
                 {
-                    //return errror
+                    return BaseResponse<List<ProductResponseDTO>>.Failure("Bad Rquest");
                 }
                 query = query.Where(p => p.CategoryId == queryParams.CategoryId);
             }
@@ -71,14 +71,7 @@ namespace api_demo_e19.Services
                 
             };
 
-            var response = new BaseResponse<List<ProductResponseDTO>>
-            {
-                statusCode = 200,
-                data = data,
-                ListMetaData = metaData
-            };
-
-            return response;
+            return BaseResponse<List<ProductResponseDTO>>.Sucess(data, metaData);
         }
     }
 }

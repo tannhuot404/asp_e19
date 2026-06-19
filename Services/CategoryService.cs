@@ -15,13 +15,8 @@ namespace api_demo_e19.Services
             await _db.SaveChangesAsync();
 
             var data = _mapper.Map<CategoryResponseDTO>(newCate);
-            var response = new BaseResponse<CategoryResponseDTO>
-            {
-                statusCode = 200,
-                data = data
-            };
 
-            return response;
+            return BaseResponse<CategoryResponseDTO>.Sucess(data); ;
         }
 
         public Task<BaseResponse<CategoryResponseDTO>> Delete(int id)
@@ -47,15 +42,9 @@ namespace api_demo_e19.Services
                                       .ProjectTo<CategoryResponseDTO>(_mapper.ConfigurationProvider)
                                       .ToListAsync();
 
+           
 
-            var response = new BaseResponse<List<CategoryResponseDTO>>
-            {
-                statusCode = 200,
-                devErrorMessage = "",
-                data = categories
-            };
-
-            return response;
+            return BaseResponse<List<CategoryResponseDTO>>.Sucess(categories);
         }
 
         public Task<BaseResponse<CategoryResponseDTO>> Update(CategoryRequestDTO item)
