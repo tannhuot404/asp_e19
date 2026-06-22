@@ -12,7 +12,7 @@ namespace api_demo_e19.Services
     {
         public async Task<BaseResponse<ProductResponseDTO>> AddNew(ProductRequestDTO item)
         {
-            if (string.IsNullOrEmpty(item.Name) || item.Name.Length < 3 || item.Name.Length > 50)
+            if (HelperClass.IsInvalidName(item.Name))
             {
                 return BaseResponse<ProductResponseDTO>.Failure("Not valid name.");
             }
