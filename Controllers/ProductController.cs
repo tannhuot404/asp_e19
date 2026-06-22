@@ -23,6 +23,16 @@ namespace api_demo_e19.Controllers
             return Ok(response);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] ProductRequestDTO item)
+        {
+            var response = await _productService.AddNew(item);
+
+            if (!response.IsSuccess) return BadRequest(response);
+
+            return Ok(response);
+        }
+
         // For add testing data
         /*
         [HttpGet("test")] // api/product/test

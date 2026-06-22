@@ -6,5 +6,6 @@ namespace api_demo_e19.Services
     public interface IProductService
     {
         Task<BaseResponse<List<ProductResponseDTO>>> GetList(ProductQueryParams queryParams);
+        Task<BaseResponse<ProductResponseDTO>> AddNew(ProductRequestDTO item);
     }
 }

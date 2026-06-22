@@ -10,6 +10,34 @@ namespace api_demo_e19.Services
 {
     public class ProductService(AppDBContext _db, IMapper _mapper) : IProductService
     {
+        public async Task<BaseResponse<ProductResponseDTO>> AddNew(ProductRequestDTO item)
+        {
+            if (string.IsNullOrEmpty(item.Name) || item.Name.Length < 3 || item.Name.Length > 50)
+            {
+                return BaseResponse<ProductResponseDTO>.Failure("Not valid name.");
+            }
+
+            if (item.Price < 0 || item.SuplierCost < 0)
+            {
+                return BaseResponse<ProductResponseDTO>.Failure("Price/SuplierCost must be positive.");
+            }
+
+            if (!await _db.Categories.AnyAsync(c => c.Id == item.CategoryId))
+            {
+                return BaseResponse<ProductResponseDTO>.Failure("Category doest not exist.");
+            }
+
+            Product newProduct = _mapper.Map<Product>(item);
+            Console.WriteLine($"From Postman: \n{item}");
+            Console.WriteLine($"From mapper: \n{newProduct}");
+
+            //_db.Products.Add(newProduct);
+            //await _db.SaveChangesAsync();
+
+            var data = _mapper.Map<ProductResponseDTO>(newProduct);
+            return BaseResponse<ProductResponseDTO>.Sucess(data);
+        }
+
         public async Task<BaseResponse<List<ProductResponseDTO>>> GetList(ProductQueryParams queryParams)
         {
             // Create Query

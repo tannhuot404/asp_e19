@@ -8,5 +8,10 @@
         public double SuplierCost { get; set; } // expose to client
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
+
+        public override string ToString()
+        {
+            return $"Name: {Name}, Price: {Price}, SuplierCost: {SuplierCost}, CategoryId: {CategoryId}";
+        }
     }
 }

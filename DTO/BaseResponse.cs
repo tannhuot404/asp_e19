@@ -25,5 +25,10 @@
         }
 
         public static BaseResponse<T> Failure(string errorMessage) => new (false, errorMessage, default, null);
+
+        public static void printInfo(BaseResponse<T> item)
+        {
+            Console.WriteLine(item.DevErrorMessage);
+        }
     }
 }
