@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api_demo_e19.Models;
 
@@ -11,9 +12,11 @@ using api_demo_e19.Models;
 namespace api_demo_e19.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260623115833_add-identity-framework")]
+    partial class addidentityframework
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,22 +50,6 @@ namespace api_demo_e19.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "555FE21D-CE38-445E-9202-56F3C8663527",
-                            ConcurrencyStamp = "555FE21D-CE38-445E-9202-56F3C8663527",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "C7336D75-A517-465E-8DF0-76F3FDBB8C5B",
-                            ConcurrencyStamp = "C7336D75-A517-465E-8DF0-76F3FDBB8C5B",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -150,13 +137,6 @@ namespace api_demo_e19.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "94489878-07AC-4ACC-BDBF-5AE4C4399B8C",
-                            RoleId = "555FE21D-CE38-445E-9202-56F3C8663527"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -249,26 +229,6 @@ namespace api_demo_e19.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "94489878-07AC-4ACC-BDBF-5AE4C4399B8C",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "94489878-07AC-4ACC-BDBF-5AE4C4399B8C",
-                            Email = "admin@example.com",
-                            EmailConfirmed = true,
-                            FirstName = "Dara",
-                            LastName = "Sok",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
-                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKD1BHMFNGcC1AUVMIjURQL5Xt0GSQzcKAi6fg9kosGjQHcUDt2fX0kFCSuQueIRAw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "e96f13b6-75fa-44eb-acda-b6a22f28126e",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("api_demo_e19.Models.Category", b =>
@@ -279,18 +239,12 @@ namespace api_demo_e19.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -375,17 +329,6 @@ namespace api_demo_e19.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("api_demo_e19.Models.Category", b =>
-                {
-                    b.HasOne("api_demo_e19.Models.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("api_demo_e19.Models.Product", b =>

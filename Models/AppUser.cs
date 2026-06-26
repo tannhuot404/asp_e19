@@ -1,0 +1,11 @@
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace api_demo_e19.Models
+{
+    public class AppUser : IdentityUser
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+    }
+}

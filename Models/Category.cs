@@ -14,5 +14,8 @@ namespace api_demo_e19.Models
 
         public List<Product>? Products { get; set; }
 
+        public string AppUserId { get; set; }
+        public AppUser? User { get; set; }
+
     }
 }

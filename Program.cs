@@ -1,5 +1,6 @@
 using api_demo_e19.Models;
 using api_demo_e19.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -17,8 +18,21 @@ builder.Services.AddOpenApi();
 builder.Services.AddAutoMapper(config => { }, AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<AppDBContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+    // You can customize password rules here!
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = false;
+})
+.AddEntityFrameworkStores<AppDBContext>()
+.AddDefaultTokenProviders();
+
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserService,  UserService>();
 // AddSingleton
 // AddTransient
 
@@ -36,5 +50,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
