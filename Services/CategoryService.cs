@@ -3,14 +3,22 @@ using api_demo_e19.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace api_demo_e19.Services
 {
-    public class CategoryService(AppDBContext _db, IMapper _mapper) : ICategoryService
+    public class CategoryService(AppDBContext _db, IMapper _mapper, IHttpContextAccessor _httpContextAccessor) : ICategoryService
     {
         public async Task<BaseResponse<CategoryResponseDTO>> Add(CategoryRequestDTO item)
         {
             var newCate = _mapper.Map<Category>(item);
+
+            var user = _httpContextAccessor.HttpContext?.User;
+            var userId = user?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Console.WriteLine($"Role: {user?.FindFirstValue(ClaimTypes.Role)}\nMyValue: {user?.FindFirstValue("MyValue")}");
+            newCate.AppUserId = userId!;
+
             _db.Categories.Add(newCate);
             await _db.SaveChangesAsync();
 

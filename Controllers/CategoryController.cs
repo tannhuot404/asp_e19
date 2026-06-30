@@ -1,9 +1,11 @@
 ﻿using api_demo_e19.DTO;
 using api_demo_e19.Models;
 using api_demo_e19.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
+using System.Security.Claims;
 using System.Text.Json.Nodes;
 
 namespace api_demo_e19.Controllers
@@ -31,6 +33,7 @@ namespace api_demo_e19.Controllers
         /// <param name="data"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddNewCategory([FromBody] CategoryRequestDTO category)
         {
             return Ok(await _categoryService.Add(category));
